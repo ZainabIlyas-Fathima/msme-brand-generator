@@ -9,33 +9,37 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #fcfcfd; }
         .glass-card { background: white; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .logo-preview-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px dashed #e2e8f0;
+        }
     </style>
 </head>
-<body class="p-6 md:p-12">
+<body class="p-4 md:p-10">
 
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-6xl mx-auto">
         <div class="flex justify-between items-center mb-2">
-            <nav class="text-sm font-medium text-gray-500">
-                Activity <span class="mx-2 text-gray-300">/</span> 
-                Sandbox 01 <span class="mx-2 text-gray-300">/</span> 
+            <nav class="text-xs md:text-sm font-medium text-gray-500">
+                Activity <span class="mx-1 md:mx-2 text-gray-300">/</span> 
+                Sandbox 01 <span class="mx-1 md:mx-2 text-gray-300">/</span> 
                 <span class="text-gray-900">AI Branding Task</span>
             </nav>
-            <span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full border border-blue-100 uppercase tracking-wider">
+            <span class="bg-blue-50 text-blue-700 text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-full border border-blue-100 uppercase tracking-wider">
                 AI Engine: GPT-4o
             </span>
         </div>
-        <p class="text-gray-500 text-sm mb-8">Task: Generate a business name and logo concept. Complete the branding simulation.</p>
+        <p class="text-gray-500 text-sm mb-6 md:mb-10">Task: Generate a business name and logo concept. Complete the branding simulation.</p>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <div class="md:col-span-5 space-y-6">
+            <div class="lg:col-span-4 space-y-6">
                 <div class="glass-card p-6">
                     <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Parameters</h2>
                     
                     <div class="space-y-5">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Business Idea</label>
-                            <textarea id="ideaInput" class="w-full p-3 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition h-24" placeholder="e.g., A small spice shop in Kandy..."></textarea>
+                            <textarea id="ideaInput" class="w-full p-3 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition h-24" placeholder="e.g., A boutique tea shop in Nuwara Eliya..."></textarea>
                         </div>
 
                         <div>
@@ -46,6 +50,11 @@
                                 <option>Retail</option>
                                 <option>Technology</option>
                                 <option>Tourism</option>
+                                <option>Education</option>
+                                <option>Healthcare</option>
+                                <option>Manufacturing</option>
+                                <option>Services</option>
+                                <option>Real Estate</option>
                             </select>
                         </div>
 
@@ -56,33 +65,44 @@
                 </div>
             </div>
 
-            <div class="md:col-span-7">
-                <div class="glass-card p-6 h-full min-h-[400px] flex flex-col">
+            <div class="lg:col-span-8">
+                <div class="glass-card p-6 min-h-[500px] flex flex-col">
                     <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">AI Output</h2>
                     
                     <div id="emptyState" class="flex-grow flex flex-col items-center justify-center text-center text-gray-400">
-                        <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3">🪄</div>
-                        <p class="text-sm">Configure parameters and click Generate</p>
+                        <p class="text-sm">Configure parameters and click Generate to see AI suggestions</p>
                     </div>
 
                     <div id="loadingState" class="hidden flex-grow flex flex-col items-center justify-center text-center">
                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"></div>
-                        <p class="text-sm text-gray-500 italic uppercase tracking-widest">Processing with GPT-4o...</p>
+                        <p class="text-sm text-gray-500 italic">Analyzing market trends...</p>
                     </div>
 
-                    <div id="resultContent" class="hidden space-y-6">
-                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
-                            <h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
-                                <span class="text-blue-500">◆</span> Suggested Business Names
+                    <div id="resultContent" class="hidden space-y-8">
+                        <div>
+                            <h3 class="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <span class="text-blue-500 text-lg">◆</span> Business Name Suggestions
                             </h3>
-                            <ul id="nameResults" class="grid grid-cols-1 gap-2 text-sm text-gray-700 font-medium"></ul>
+                            <div id="nameResults" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
                         </div>
 
-                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
-                            <h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
-                                <span class="text-green-500">●</span> Logo Concept Description
+                        <div class="border-t pt-8">
+                            <h3 class="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <span class="text-green-500 text-lg">●</span> Brand Identity & Logo
                             </h3>
-                            <p id="logoDesc" class="text-sm text-gray-600 leading-relaxed italic"></p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                                <div id="logoVisual" class="logo-preview-box aspect-square rounded-xl flex items-center justify-center overflow-hidden">
+                                    </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                                        <p class="text-xs font-bold text-gray-400 uppercase mb-2">Design Concept</p>
+                                        <p id="logoDesc" class="text-sm text-gray-600 leading-relaxed italic"></p>
+                                    </div>
+                                    <p class="text-[11px] text-gray-400 leading-tight">Note: This is an AI-generated conceptual mockup based on your industry and audience.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,6 +113,7 @@
     <script>
         function runSimulation() {
             const idea = document.getElementById('ideaInput').value;
+            const industry = document.getElementById('industryInput').value;
             if(!idea) return alert("Please describe your business idea first.");
 
             const btn = document.getElementById('genBtn');
@@ -100,22 +121,48 @@
             const loading = document.getElementById('loadingState');
             const result = document.getElementById('resultContent');
 
-            // Toggle States
             btn.disabled = true;
             btn.classList.add('opacity-50');
             empty.classList.add('hidden');
             result.classList.add('hidden');
             loading.classList.remove('hidden');
 
-            // Simulate AI "Thinking"
             setTimeout(() => {
-                const names = ["Ceylon Bloom", "Kandy Harvest", "SpiceRoute SL", "Emerald Oasis", "Heritage Greens"];
-                const logo = "A minimalist, hand-drawn tea leaf silhouette centered within a circular bronze frame. The typography is a clean, modern serif, suggesting a blend of tradition and high-end luxury.";
-
+                // 1. Generate Names
+                const names = ["Ceylon Prime", "Island Roots", "Heritage Hub", "Emerald Way", "Lanka Logic"];
+                const selectedName = names[Math.floor(Math.random() * names.length)];
+                
                 document.getElementById('nameResults').innerHTML = names.map(n => 
-                    `<li class="bg-white p-2 border border-gray-100 rounded-md shadow-sm">${n}</li>`
+                    `<div class="bg-white p-3 border border-gray-100 rounded-lg shadow-sm font-medium text-gray-700 text-sm hover:border-blue-200 transition cursor-default">${n}</div>`
                 ).join('');
-                document.getElementById('logoDesc').innerText = logo;
+
+                // 2. Logo Description
+                const logoDescription = `A minimalist icon combining a geometric shape representing ${industry} with a traditional Sri Lankan motif. The color palette uses deep navy and gold, symbolizing professional trust and local heritage.`;
+                document.getElementById('logoDesc').innerText = logoDescription;
+
+                // 3. Generate Visual Logo (SVG)
+                const initial = selectedName.charAt(0);
+                const colors = {
+                    'Agriculture': '#15803d', 'Food & Beverage': '#b91c1c', 'Retail': '#0369a1',
+                    'Technology': '#4338ca', 'Tourism': '#0891b2', 'Education': '#7e22ce',
+                    'Healthcare': '#be123c', 'Manufacturing': '#374151', 'Services': '#0f172a', 'Real Estate': '#a16207'
+                };
+                const brandColor = colors[industry] || '#2563eb';
+
+                const svgLogo = `
+                    <svg width="160" height="160" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:${brandColor};stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:${brandColor};stop-opacity:0.8" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="10" y="10" width="80" height="80" rx="20" fill="url(#grad)" />
+                        <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Inter, sans-serif" font-weight="700" font-size="40">${initial}</text>
+                        <circle cx="50" cy="50" r="42" fill="none" stroke="white" stroke-width="2" stroke-dasharray="4 2" opacity="0.3" />
+                    </svg>
+                `;
+                document.getElementById('logoVisual').innerHTML = svgLogo;
 
                 loading.classList.add('hidden');
                 result.classList.remove('hidden');
