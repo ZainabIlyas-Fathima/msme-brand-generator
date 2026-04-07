@@ -1,218 +1,128 @@
-import { useState } from 'react';
-import { Sparkles, RefreshCw, Copy, Check, Bot } from 'lucide-react';
-import { generateNames, generateTaglines, generateLogoConcept } from '@/lib/nameGenerator';
-import { Badge } from '@/components/ui/badge';
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbSeparator,
-  BreadcrumbPage,
-} from '@/components/ui/breadcrumb';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox 01 | AI Branding Task</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #fcfcfd; }
+        .glass-card { background: white; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="p-6 md:p-12">
 
-const industries = ['Food & Beverage', 'Retail', 'Agriculture', 'Technology', 'Services', 'Education', 'Tourism', 'Beauty', 'Manufacturing'];
-const audiences = ['Local community', 'Youth', 'Families', 'Professionals', 'Tourists', 'Online customers'];
-
-interface Results {
-  names: string[];
-  taglines: string[];
-  logoConcept: string;
-}
-
-const CopyButton = ({ text }: { text: string }) => {
-  const [copied, setCopied] = useState(false);
-  const handleCopy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
-  return (
-    <button onClick={handleCopy} className="shrink-0 text-muted-foreground hover:text-foreground transition-colors">
-      {copied ? <Check className="w-3.5 h-3.5 text-secondary" /> : <Copy className="w-3.5 h-3.5" />}
-    </button>
-  );
-};
-
-const Index = () => {
-  const [idea, setIdea] = useState('');
-  const [industry, setIndustry] = useState('');
-  const [audience, setAudience] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<Results | null>(null);
-
-  const canGenerate = idea.trim() && industry && audience;
-
-  const generate = () => {
-    if (!canGenerate) return;
-    setLoading(true);
-    setResults(null);
-    setTimeout(() => {
-      setResults({
-        names: generateNames(idea, industry, audience),
-        taglines: generateTaglines(idea, industry, audience),
-        logoConcept: generateLogoConcept(industry, audience),
-      });
-      setLoading(false);
-    }, 1200);
-  };
-
-  return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="border-b border-border px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-foreground">Activity</span>
-          <span className="text-border">|</span>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <span className="text-muted-foreground text-xs">Sandbox 01</span>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage className="text-xs">AI Branding Task</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+    <div class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-2">
+            <nav class="text-sm font-medium text-gray-500">
+                Activity <span class="mx-2 text-gray-300">/</span> 
+                Sandbox 01 <span class="mx-2 text-gray-300">/</span> 
+                <span class="text-gray-900">AI Branding Task</span>
+            </nav>
+            <span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full border border-blue-100 uppercase tracking-wider">
+                AI Engine: GPT-4o
+            </span>
         </div>
-        <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground gap-1">
-          <Bot className="w-3 h-3" /> AI Engine: GPT-4o
-        </Badge>
-      </header>
+        <p class="text-gray-500 text-sm mb-8">Task: Generate a business name and logo concept. Complete the branding simulation.</p>
 
-      {/* Task bar */}
-      <div className="px-6 py-2.5 border-b border-border bg-muted/30">
-        <p className="text-xs text-muted-foreground">
-          Task: Generate a business name and logo concept. Complete the branding simulation.
-        </p>
-      </div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            
+            <div class="md:col-span-5 space-y-6">
+                <div class="glass-card p-6">
+                    <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Parameters</h2>
+                    
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Business Idea</label>
+                            <textarea id="ideaInput" class="w-full p-3 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition h-24" placeholder="e.g., A small spice shop in Kandy..."></textarea>
+                        </div>
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col md:flex-row">
-        {/* Left panel - Inputs */}
-        <aside className="w-full md:w-80 lg:w-96 border-r border-border p-6 flex flex-col gap-5 shrink-0">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Parameters</h2>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Industry</label>
+                            <select id="industryInput" class="w-full p-3 border border-gray-200 rounded-lg text-sm bg-white outline-none">
+                                <option>Agriculture</option>
+                                <option>Food & Beverage</option>
+                                <option>Retail</option>
+                                <option>Technology</option>
+                                <option>Tourism</option>
+                            </select>
+                        </div>
 
-          <div>
-            <label className="block text-xs font-medium text-foreground mb-1.5">Business Idea</label>
-            <input
-              type="text"
-              value={idea}
-              onChange={e => setIdea(e.target.value)}
-              placeholder="e.g. Organic tea delivery service"
-              className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring transition"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-foreground mb-1.5">Industry</label>
-            <select
-              value={industry}
-              onChange={e => setIndustry(e.target.value)}
-              className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring transition appearance-none"
-            >
-              <option value="">Select industry</option>
-              {industries.map(i => <option key={i} value={i}>{i}</option>)}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-foreground mb-1.5">Target Audience</label>
-            <select
-              value={audience}
-              onChange={e => setAudience(e.target.value)}
-              className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring transition appearance-none"
-            >
-              <option value="">Select audience</option>
-              {audiences.map(a => <option key={a} value={a}>{a}</option>)}
-            </select>
-          </div>
-
-          <button
-            onClick={generate}
-            disabled={!canGenerate || loading}
-            className="w-full bg-foreground text-background font-medium rounded-lg px-4 py-2.5 text-sm transition hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-auto"
-          >
-            {loading ? (
-              <span className="flex items-center gap-2">
-                <span className="w-3.5 h-3.5 border-2 border-background/30 border-t-background rounded-full animate-spin" />
-                Generating…
-              </span>
-            ) : results ? (
-              <><RefreshCw className="w-3.5 h-3.5" /> Regenerate with AI</>
-            ) : (
-              <><Sparkles className="w-3.5 h-3.5" /> Generate with AI</>
-            )}
-          </button>
-        </aside>
-
-        {/* Right panel - Output */}
-        <main className="flex-1 p-6 overflow-auto">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">AI Output</h2>
-
-          {!results && !loading && (
-            <div className="h-full flex items-center justify-center min-h-[300px]">
-              <div className="text-center">
-                <div className="w-12 h-12 rounded-xl border border-border flex items-center justify-center mx-auto mb-3">
-                  <Sparkles className="w-5 h-5 text-muted-foreground/40" />
-                </div>
-                <p className="text-sm text-muted-foreground">Configure parameters and click Generate</p>
-              </div>
-            </div>
-          )}
-
-          {loading && (
-            <div className="h-full flex items-center justify-center min-h-[300px]">
-              <div className="flex gap-1.5">
-                <span className="loading-dot" />
-                <span className="loading-dot" />
-                <span className="loading-dot" />
-              </div>
-            </div>
-          )}
-
-          {results && !loading && (
-            <div className="space-y-5 animate-fade-in-up">
-              {/* Names */}
-              <div className="rounded-lg border border-border p-5">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Business Names</h3>
-                <div className="space-y-2">
-                  {results.names.map((name, i) => (
-                    <div key={i} className="flex items-center justify-between px-3 py-2 rounded-md bg-muted/40 text-sm text-foreground">
-                      <span>{name}</span>
-                      <CopyButton text={name} />
+                        <button onclick="runSimulation()" id="genBtn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                            <span>✨</span> Generate with AI
+                        </button>
                     </div>
-                  ))}
                 </div>
-              </div>
-
-              {/* Taglines */}
-              <div className="rounded-lg border border-border p-5">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Tagline Ideas</h3>
-                <div className="space-y-2">
-                  {results.taglines.map((t, i) => (
-                    <div key={i} className="flex items-center justify-between px-3 py-2 rounded-md bg-muted/40 text-sm text-foreground">
-                      <span>{t}</span>
-                      <CopyButton text={t} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Logo Concept */}
-              <div className="rounded-lg border border-border p-5">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Logo Concept</h3>
-                <div className="flex items-start justify-between px-3 py-2 rounded-md bg-muted/40 text-sm text-foreground">
-                  <span>{results.logoConcept}</span>
-                  <CopyButton text={results.logoConcept} />
-                </div>
-              </div>
             </div>
-          )}
-        </main>
-      </div>
+
+            <div class="md:col-span-7">
+                <div class="glass-card p-6 h-full min-h-[400px] flex flex-col">
+                    <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">AI Output</h2>
+                    
+                    <div id="emptyState" class="flex-grow flex flex-col items-center justify-center text-center text-gray-400">
+                        <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3">🪄</div>
+                        <p class="text-sm">Configure parameters and click Generate</p>
+                    </div>
+
+                    <div id="loadingState" class="hidden flex-grow flex flex-col items-center justify-center text-center">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"></div>
+                        <p class="text-sm text-gray-500 italic uppercase tracking-widest">Processing with GPT-4o...</p>
+                    </div>
+
+                    <div id="resultContent" class="hidden space-y-6">
+                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                            <h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                                <span class="text-blue-500">◆</span> Suggested Business Names
+                            </h3>
+                            <ul id="nameResults" class="grid grid-cols-1 gap-2 text-sm text-gray-700 font-medium"></ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                            <h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                                <span class="text-green-500">●</span> Logo Concept Description
+                            </h3>
+                            <p id="logoDesc" class="text-sm text-gray-600 leading-relaxed italic"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  );
-};
 
-export default Index;
+    <script>
+        function runSimulation() {
+            const idea = document.getElementById('ideaInput').value;
+            if(!idea) return alert("Please describe your business idea first.");
+
+            const btn = document.getElementById('genBtn');
+            const empty = document.getElementById('emptyState');
+            const loading = document.getElementById('loadingState');
+            const result = document.getElementById('resultContent');
+
+            // Toggle States
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+            empty.classList.add('hidden');
+            result.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            // Simulate AI "Thinking"
+            setTimeout(() => {
+                const names = ["Ceylon Bloom", "Kandy Harvest", "SpiceRoute SL", "Emerald Oasis", "Heritage Greens"];
+                const logo = "A minimalist, hand-drawn tea leaf silhouette centered within a circular bronze frame. The typography is a clean, modern serif, suggesting a blend of tradition and high-end luxury.";
+
+                document.getElementById('nameResults').innerHTML = names.map(n => 
+                    `<li class="bg-white p-2 border border-gray-100 rounded-md shadow-sm">${n}</li>`
+                ).join('');
+                document.getElementById('logoDesc').innerText = logo;
+
+                loading.classList.add('hidden');
+                result.classList.remove('hidden');
+                btn.disabled = false;
+                btn.classList.remove('opacity-50');
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
